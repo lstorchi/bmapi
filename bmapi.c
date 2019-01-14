@@ -15,5 +15,8 @@ int BM_i2r(void * ptr, int input_id)
   controlreg = Xil_In32(OUT_BASE + base_offset - 2);
   value = Xil_In32(OUT_BASE + base_offset - 1);
 
+  controlreg |= 1U << DATA_RECV;
+  Xil_Out32 (OUT_BASE + base_offset - 2, controlreg);
+
   return BMOK;
 }

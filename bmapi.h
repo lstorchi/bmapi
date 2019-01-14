@@ -15,11 +15,18 @@
 u32 Xil_In32( u32 );
 #endif
 
+#ifndef Xil_Out32
+void Xil_Out32(u32, u32); 
+#endif
+
 #define BMERR -1
 #define BMOK 0
 
 #define UPPER_REG_LIMIT 128
 #define LOWER_REG_LIMIT 1
+
+#define DATA_VALID 0
+#define DATA_RECV 1
 
 int BM_i2r(void * ptr, int input_id);
 
