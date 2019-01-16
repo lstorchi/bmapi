@@ -1,13 +1,12 @@
 #ifndef __BM_API_INC__
 #define __BM_API_INC__
 
-#include <asm/types.h>
-
 #ifndef OUT_BASE 
 #define OUT_BASE 0x00000000
 #endif
 
 #ifndef u32
+#include <asm/types.h>
 #define u32 __u32
 #endif
 
