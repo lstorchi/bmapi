@@ -29,17 +29,11 @@ void Xil_Out32(u32, u32);
 #define DATA_RECV 1
 
 int BM_i2r(void * ptr, int input_id);
-
-int BM_i2r(void * ptr, int input_id);
-
 int BM_i2rw(void * ptr, int input_id);   
-
 int BM_i2rwa(void * ptr, int input_id);
 
 int BM_r2o(void * ptr, int output_id);
-
 int BM_r2ow(void * ptr, int output_id);
-
 int BM_r2owa(void * ptr, int output_id);
 
 #endif
