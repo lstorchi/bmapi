@@ -28,6 +28,9 @@ void Xil_Out32(u32, u32);
 #define BM_DATA_VALID 0
 #define BM_DATA_RECV 1
 
+u32 get_control_addr (int input_id); 
+u32 get_data_addr (int input_id);
+
 int BM_i2r(u32 * ptr, int input_id);
 int BM_i2rw(u32 * ptr, int input_id);   
 int BM_i2rwa(u32 * ptr, int input_id);

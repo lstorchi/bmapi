@@ -10,7 +10,8 @@
 include ./config.mk
 
 OBJS = \
-	bmapi.o
+	bmapi.o \
+	bmapi_util.o
 
 all: $(OBJS)
 
