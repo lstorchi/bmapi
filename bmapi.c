@@ -13,8 +13,8 @@ int BM_i2r(u32 * ptr, int input_id)
   if (input_id > UPPER_REG_LIMIT)
     return BMERR;
 
-  control_addr = get_control_addr(input_id);
-  data_addr = get_data_addr(input_id);
+  control_addr = get_in_control_addr(input_id);
+  data_addr = get_in_data_addr(input_id);
 
   value = Xil_In32(data_addr);
   memcpy((void *) ptr, (const void *) &value, 
@@ -39,8 +39,8 @@ int BM_i2rw(u32 * ptr, int input_id)
   if (input_id > UPPER_REG_LIMIT)
     return BMERR;
 
-  control_addr = get_control_addr(input_id);
-  data_addr = get_data_addr(input_id);
+  control_addr = get_in_control_addr(input_id);
+  data_addr = get_in_data_addr(input_id);
 
   do
   {
@@ -77,8 +77,8 @@ int BM_r2o(u32 * ptr, int output_id)
   if (output_id > UPPER_REG_LIMIT)
     return BMERR;
 
-  control_addr = get_control_addr(output_id);
-  data_addr = get_data_addr(output_id);
+  control_addr = get_out_control_addr(output_id);
+  data_addr = get_out_data_addr(output_id);
 
   controlreg = Xil_In32(control_addr);
   Xil_Out32 (data_addr, value);
@@ -104,8 +104,8 @@ int BM_r2ow(u32 * ptr, int output_id)
   if (output_id > UPPER_REG_LIMIT)
     return BMERR;
 
-  control_addr = get_control_addr(output_id);
-  data_addr = get_data_addr(output_id);
+  control_addr = get_out_control_addr(output_id);
+  data_addr = get_out_data_addr(output_id);
 
   Xil_Out32 (data_addr, value);
 
@@ -137,8 +137,8 @@ int BM_r2owa(u32 * ptr, int output_id)
   if (output_id > UPPER_REG_LIMIT)
     return BMERR;
 
-  control_addr = get_control_addr(output_id);
-  data_addr = get_data_addr(output_id);
+  control_addr = get_out_control_addr(output_id);
+  data_addr = get_out_data_addr(output_id);
 
   do
   { 

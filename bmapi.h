@@ -18,18 +18,16 @@ u32 Xil_In32( u32 );
 void Xil_Out32(u32, u32); 
 #endif
 
+#include "bm_defined.h"
+
 #define BMERR -1
 #define BMOK 0
 
-#define UPPER_REG_LIMIT 128
-#define LOWER_REG_LIMIT 1
+u32 get_in_control_addr (int id); 
+u32 get_in_data_addr (int id);
 
-#define BM_NUMOF_VALID_BIT 32
-#define BM_DATA_VALID 0
-#define BM_DATA_RECV 1
-
-u32 get_control_addr (int input_id); 
-u32 get_data_addr (int input_id);
+u32 get_out_control_addr (int id); 
+u32 get_out_data_addr (int id);
 
 int BM_i2r(u32 * ptr, int input_id);
 int BM_i2rw(u32 * ptr, int input_id);   

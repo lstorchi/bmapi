@@ -18,4 +18,5 @@ all: $(OBJS)
 clean:
 	rm -f $(OBJS)
 
-bmapi.o: bmapi.h
+bmapi.o: bmapi.h bm_defined.h
+bmapi_util.o: bmapi.h bm_defined.h
