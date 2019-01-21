@@ -24,15 +24,16 @@ void Xil_Out32(u32, u32);
 #define UPPER_REG_LIMIT 128
 #define LOWER_REG_LIMIT 1
 
-#define DATA_VALID 0
-#define DATA_RECV 1
+#define BM_NUMOF_VALID_BIT 32
+#define BM_DATA_VALID 0
+#define BM_DATA_RECV 1
 
-int BM_i2r(void * ptr, int input_id);
-int BM_i2rw(void * ptr, int input_id);   
-int BM_i2rwa(void * ptr, int input_id);
+int BM_i2r(u32 * ptr, int input_id);
+int BM_i2rw(u32 * ptr, int input_id);   
+int BM_i2rwa(u32 * ptr, int input_id);
 
-int BM_r2o(void * ptr, int output_id);
-int BM_r2ow(void * ptr, int output_id);
-int BM_r2owa(void * ptr, int output_id);
+int BM_r2o(u32 * ptr, int output_id);
+int BM_r2ow(u32 * ptr, int output_id);
+int BM_r2owa(u32 * ptr, int output_id);
 
 #endif

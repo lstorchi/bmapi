@@ -1,2 +1,2 @@
 CC  = gcc
-CFLAGS = -O0 -g 
+CFLAGS = -O0 -g -Wall
