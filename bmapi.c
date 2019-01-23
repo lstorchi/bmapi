@@ -18,7 +18,7 @@ int BM_i2r(u32 * ptr, int input_id)
 
   value = Xil_In32(data_addr);
   memcpy((void *) ptr, (const void *) &value, 
-      (size_t) BM_NUMOF_VALID_BIT);
+      (size_t) REGISTER_SIZE);
 
   controlreg = Xil_In32(control_addr);
   controlreg |= 1U << BM_DATA_RECV;
@@ -50,7 +50,7 @@ int BM_i2rw(u32 * ptr, int input_id)
 
   value = Xil_In32(data_addr);
   memcpy((void *) ptr, (const void *) &value, 
-      (size_t) BM_NUMOF_VALID_BIT);
+      (size_t) REGISTER_SIZE);
   
   controlreg |= 1U << BM_DATA_RECV;
   Xil_Out32 (control_addr, controlreg);
@@ -69,7 +69,7 @@ int BM_r2o(u32 * ptr, int output_id)
       data_addr;
 
   memcpy((void *) &value, (const void *) ptr, 
-      (size_t) BM_NUMOF_VALID_BIT);
+      (size_t) REGISTER_SIZE);
 
   if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
@@ -96,7 +96,7 @@ int BM_r2ow(u32 * ptr, int output_id)
   int bitvalue;
 
   memcpy((void *) &value, (const void *) ptr, 
-      (size_t) BM_NUMOF_VALID_BIT);
+      (size_t) REGISTER_SIZE);
 
   if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
@@ -129,7 +129,7 @@ int BM_r2owa(u32 * ptr, int output_id)
   int bitvalue;
 
   memcpy((void *) &value, (const void *) ptr, 
-      (size_t) BM_NUMOF_VALID_BIT);
+      (size_t) REGISTER_SIZE);
 
   if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;

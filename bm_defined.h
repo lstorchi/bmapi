@@ -6,7 +6,7 @@
 #define BM_UPPER_OUT_REG_LIMIT 127
 #define BM_LOWER_OUT_REG_LIMIT 0
 
-#define BM_NUMOF_VALID_BIT 32
+#define REGISTER_SIZE 32
 #define BM_DATA_VALID 0
 #define BM_DATA_RECV 1
 
