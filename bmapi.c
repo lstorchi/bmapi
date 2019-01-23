@@ -7,10 +7,10 @@ int BM_i2r(u32 * ptr, int input_id)
   u32 controlreg, value, control_addr, 
       data_addr;
 
-  if (input_id < LOWER_REG_LIMIT)
+  if (input_id < BM_LOWER_IN_REG_LIMIT)
     return BMERR;
 
-  if (input_id > UPPER_REG_LIMIT)
+  if (input_id > BM_UPPER_IN_REG_LIMIT)
     return BMERR;
 
   control_addr = get_in_control_addr(input_id);
@@ -33,10 +33,10 @@ int BM_i2rw(u32 * ptr, int input_id)
       data_addr;
   int bitvalue;
 
-  if (input_id < LOWER_REG_LIMIT)
+  if (input_id < BM_LOWER_IN_REG_LIMIT)
     return BMERR;
 
-  if (input_id > UPPER_REG_LIMIT)
+  if (input_id > BM_UPPER_IN_REG_LIMIT)
     return BMERR;
 
   control_addr = get_in_control_addr(input_id);
@@ -71,10 +71,10 @@ int BM_r2o(u32 * ptr, int output_id)
   memcpy((void *) &value, (const void *) ptr, 
       (size_t) BM_NUMOF_VALID_BIT);
 
-  if (output_id < LOWER_REG_LIMIT)
+  if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
 
-  if (output_id > UPPER_REG_LIMIT)
+  if (output_id > BM_UPPER_OUT_REG_LIMIT)
     return BMERR;
 
   control_addr = get_out_control_addr(output_id);
@@ -98,10 +98,10 @@ int BM_r2ow(u32 * ptr, int output_id)
   memcpy((void *) &value, (const void *) ptr, 
       (size_t) BM_NUMOF_VALID_BIT);
 
-  if (output_id < LOWER_REG_LIMIT)
+  if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
 
-  if (output_id > UPPER_REG_LIMIT)
+  if (output_id > BM_UPPER_OUT_REG_LIMIT)
     return BMERR;
 
   control_addr = get_out_control_addr(output_id);
@@ -131,10 +131,10 @@ int BM_r2owa(u32 * ptr, int output_id)
   memcpy((void *) &value, (const void *) ptr, 
       (size_t) BM_NUMOF_VALID_BIT);
 
-  if (output_id < LOWER_REG_LIMIT)
+  if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
 
-  if (output_id > UPPER_REG_LIMIT)
+  if (output_id > BM_UPPER_OUT_REG_LIMIT)
     return BMERR;
 
   control_addr = get_out_control_addr(output_id);

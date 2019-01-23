@@ -1,7 +1,10 @@
 /* BM defined */
 
-#define UPPER_REG_LIMIT 128
-#define LOWER_REG_LIMIT 1
+#define BM_UPPER_IN_REG_LIMIT 127
+#define BM_LOWER_IN_REG_LIMIT 0
+
+#define BM_UPPER_OUT_REG_LIMIT 127
+#define BM_LOWER_OUT_REG_LIMIT 0
 
 #define BM_NUMOF_VALID_BIT 32
 #define BM_DATA_VALID 0
