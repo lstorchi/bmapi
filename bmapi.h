@@ -29,6 +29,12 @@ u32 get_in_data_addr (int id);
 u32 get_out_control_addr (int id); 
 u32 get_out_data_addr (int id);
 
+u32 get_in_data_valid_addr (int id);
+u32 get_out_data_valid_addr (int id);
+
+u32 get_in_data_recv_addr (int id);
+u32 get_out_data_recv_addr (int id);
+
 int BM_i2r(u32 * ptr, int input_id);
 int BM_i2rw(u32 * ptr, int input_id);   
 int BM_i2rwa(u32 * ptr, int input_id);
