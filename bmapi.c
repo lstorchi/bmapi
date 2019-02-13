@@ -1,5 +1,7 @@
 #include <string.h>
 
+#include "xil_io.h"
+
 #include "bmapi.h"
 
 int BM_i2r(u32 * ptr, int input_id) 
