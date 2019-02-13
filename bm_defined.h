@@ -10,7 +10,7 @@
 #define BM_DATA_VALID 0
 #define BM_DATA_RECV 1
 
-#define BM_SPLIT_CTRL_REGISTERS 1
+#define BM_SPLIT_CTRL_REGISTERS 1 /* if set BM_DATA_VALID and BM_DATA_RECV will be both 0 */
 
 #define BM_IN_CTRL_0 0x00000000
 #define BM_IN_CTRL_1 0x00000000
