@@ -133,7 +133,7 @@ int BM_r2ow(u32 * ptr, int output_id)
 
 #ifdef REMOVE_CONTROL_CHECK
   
-  return BM_i2o(ptr, output_id);
+  return BM_r2o(ptr, output_id);
 
 #else
 
@@ -186,7 +186,7 @@ int BM_r2owa(u32 * ptr, int output_id)
 
 #ifdef REMOVE_CONTROL_CHECK
   
-  return BM_i2o(ptr, output_id);
+  return BM_r2o(ptr, output_id);
 
 #else
 
