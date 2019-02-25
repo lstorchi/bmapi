@@ -1,22 +1,7 @@
-#!gmake
-##################################################
-#
-# Makefile for bmapi
-#
-# $Id$
-#bmapi
-###################################################
+# redo
 
-include ./config.mk
-
-OBJS = \
-	bmapi.o \
-	bmapi_util.o
-
-all: $(OBJS)
+all:
+	make -C ./src
 
 clean:
-	rm -f $(OBJS)
-
-bmapi.o: bmapi.h bm_defined.h
-bmapi_util.o: bmapi.h bm_defined.h
+	make -C ./src clean
