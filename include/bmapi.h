@@ -5,18 +5,6 @@
 #define OUT_BASE 0x00000000
 #endif
 
-#ifndef XIL_IO_H
-
-#include <asm/types.h>
-#define u32 __u32
-
-#define UINTPTR __u32
-
-u32 Xil_In32(UINTPTR);
-void Xil_Out32(UINTPTR, u32);
-
-#endif
-
 #include "bm_defined.h"
 
 #define BMERR -1
