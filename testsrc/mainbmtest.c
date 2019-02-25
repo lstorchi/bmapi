@@ -1,3 +1,4 @@
+#include "bondmachineip1.h"
 #include "xparameters.h"
 #include "xil_io.h"
 
@@ -28,13 +29,13 @@ int main(void)
     while(led_val_w<=LED_LIMIT)
     {
       /* Print value to terminal */
-      xil_printf("Write value : %20d\r\n", led_val_w);
+      xil_printf("Write value : %5d\r\n", led_val_w);
       /* Write value to led_controller IP core using generated driver function */
       Xil_Out32(LED_BASE + BONDMACHINEIP1_S00_AXI_SLV_REG1_OFFSET, 
           (u32)(led_val_w));
       led_val_r = 
         Xil_In32(LED_BASE + BONDMACHINEIP1_S00_AXI_SLV_REG0_OFFSET);
-      xil_printf("Read value  : %20d\r\n", led_val_r);
+      xil_printf("Read value  : %5d\r\n", led_val_r);
       /* increment LED value */
       led_val_w++;
       /* run a simple delay to allow changes on LEDs to be visible */

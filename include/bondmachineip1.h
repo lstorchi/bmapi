@@ -1,0 +1,4 @@
+#ifndef FAKE_BONDMACHINEIP1_H
+#define FAKE_BONDMACHINEIP1_H
+
+#endif
