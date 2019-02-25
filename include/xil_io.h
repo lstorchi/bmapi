@@ -12,7 +12,7 @@
 
 u32 Xil_In32(UINTPTR);
 void Xil_Out32(UINTPTR, u32);
-void xil_printf( const char8 *ctrl1, ...);
+void xil_printf( const char *ctrl1, ...);
 
 #endif
 

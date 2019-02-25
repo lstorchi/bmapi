@@ -1,7 +1,6 @@
 #include "xparameters.h"
 #include "xil_io.h"
 
-
 // Define maximum LED value (2^8)-1 = 255
 #define LED_LIMIT 255
 // Define delay length

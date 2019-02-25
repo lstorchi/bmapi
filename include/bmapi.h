@@ -5,6 +5,7 @@
 #define OUT_BASE 0x00000000
 #endif
 
+#include "xil_io.h"
 #include "bm_defined.h"
 
 #define BMERR -1
