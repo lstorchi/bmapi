@@ -103,14 +103,14 @@ int BM_r2o(u32 * ptr, int output_id)
   if (output_id > BM_UPPER_OUT_REG_LIMIT)
     return BMERR;
 
+  data_addr = get_out_data_addr(output_id);
+
 #ifndef REMOVE_CONTROL_CHECK 
 #ifndef BM_SPLIT_CTRL_REGISTERS 
   control_addr = get_out_control_addr(output_id);
 #else
   control_addr = get_out_data_valid_addr(output_id);
 #endif
-
-  data_addr = get_out_data_addr(output_id);
 
   controlreg = Xil_In32(control_addr);
 #endif
