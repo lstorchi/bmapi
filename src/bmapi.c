@@ -1,11 +1,8 @@
-#include <string.h>
-
 #include "bmapi.h"
 
 int BM_i2r(u32 * ptr, int input_id) 
 {
-  u32 controlreg, value, control_addr, 
-      data_addr;
+  u32 controlreg, control_addr, data_addr;
 
   if (input_id < BM_LOWER_IN_REG_LIMIT)
     return BMERR;
@@ -14,9 +11,7 @@ int BM_i2r(u32 * ptr, int input_id)
     return BMERR;
 
   data_addr = get_in_data_addr(input_id);
-  value = Xil_In32(data_addr);
-  memcpy((void *) ptr, (const void *) &value, 
-      (size_t) REGISTER_SIZE);
+  (*ptr) = Xil_In32(data_addr);
 
 #ifndef REMOVE_CONTROL_CHECK 
 #ifndef BM_SPLIT_CTRL_REGISTERS
@@ -43,8 +38,7 @@ int BM_i2rw(u32 * ptr, int input_id)
 
 #else
 
-  u32 controlreg, value, control_addr, 
-      data_addr;
+  u32 controlreg, control_addr, data_addr;
   int bitvalue;
 
   if (input_id < BM_LOWER_IN_REG_LIMIT)
@@ -67,9 +61,7 @@ int BM_i2rw(u32 * ptr, int input_id)
     bitvalue = (controlreg >> BM_DATA_VALID) & 1U;
   } while (bitvalue == 0);
 
-  value = Xil_In32(data_addr);
-  memcpy((void *) ptr, (const void *) &value, 
-      (size_t) REGISTER_SIZE);
+  (*ptr) = Xil_In32(data_addr);
 
 #ifdef BM_SPLIT_CTRL_REGISTERS
   control_addr = get_in_data_recv_addr(input_id);
@@ -91,11 +83,8 @@ int BM_i2rwa(u32 * ptr, int input_id)
 
 int BM_r2o(u32 * ptr, int output_id)
 {
-  u32 controlreg, value, control_addr, 
+  u32 controlreg, control_addr, 
       data_addr;
-
-  memcpy((void *) &value, (const void *) ptr, 
-      (size_t) REGISTER_SIZE);
 
   if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
@@ -115,7 +104,7 @@ int BM_r2o(u32 * ptr, int output_id)
   controlreg = Xil_In32(control_addr);
 #endif
 
-  Xil_Out32 (data_addr, value);
+  Xil_Out32 (data_addr, *ptr);
 
 #ifndef REMOVE_CONTROL_CHECK 
   controlreg |= 1U << BM_DATA_VALID;
@@ -136,12 +125,9 @@ int BM_r2ow(u32 * ptr, int output_id)
 #else
 
 
-  u32 controlreg, value, control_addr,  
+  u32 controlreg, control_addr,  
       data_addr;
   int bitvalue;
-
-  memcpy((void *) &value, (const void *) ptr, 
-      (size_t) REGISTER_SIZE);
 
   if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
@@ -150,7 +136,7 @@ int BM_r2ow(u32 * ptr, int output_id)
     return BMERR;
 
   data_addr = get_out_data_addr(output_id);
-  Xil_Out32 (data_addr, value);
+  Xil_Out32 (data_addr, *ptr);
 
 #ifndef BM_SPLIT_CTRL_REGISTERS
   control_addr = get_out_control_addr(output_id);
@@ -188,12 +174,9 @@ int BM_r2owa(u32 * ptr, int output_id)
 
 #else
 
-  u32 controlreg = 0, value, control_addr, 
+  u32 controlreg = 0, control_addr, 
       data_addr;
   int bitvalue;
-
-  memcpy((void *) &value, (const void *) ptr, 
-      (size_t) REGISTER_SIZE);
 
   if (output_id < BM_LOWER_OUT_REG_LIMIT)
     return BMERR;
@@ -215,7 +198,7 @@ int BM_r2owa(u32 * ptr, int output_id)
     bitvalue = (controlreg >> BM_DATA_VALID) & 1U;
   } while (bitvalue == 1);
 
-  Xil_Out32 (data_addr, value);
+  Xil_Out32 (data_addr, *ptr);
 
   controlreg |= 1U << BM_DATA_VALID;
 
