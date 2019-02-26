@@ -5,7 +5,7 @@
 #include "xparameters.h"
 
 // if used will remove all the control registers
-//#define REMOVE_CONTROL_CHECK 1
+#define REMOVE_CONTROL_CHECK 1
 
 #define BM_UPPER_IN_REG_LIMIT 127
 #define BM_LOWER_IN_REG_LIMIT 0
