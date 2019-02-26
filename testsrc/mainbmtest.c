@@ -42,7 +42,7 @@ int main(void)
       //  Xil_In32(LED_BASE + BONDMACHINEIP1_S00_AXI_SLV_REG0_OFFSET);
       retval = BM_i2r(&led_val_r, input_id);
 
-      xil_printf("Read value  : %5d\r\n", led_val_r);
+      xil_printf("Read value  : %5d\r\n\r\n", led_val_r);
       /* increment LED value */
       led_val_w++;
       /* run a simple delay to allow changes on LEDs to be visible */
