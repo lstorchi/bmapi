@@ -59,7 +59,7 @@ int set_blocking (int fd, int should_block)
 int main(int argc, char ** argv)
 {
 	int n;
-	char buf [2];
+	unsigned char buf [2];
 	char * portname = "/dev/ttyUSB1";
 
 
@@ -78,14 +78,15 @@ int main(int argc, char ** argv)
 	set_blocking (fd, 0); 
 
 	n = read (fd, buf, sizeof(buf)); 
-	fprintf(stdout, "\"%d\" %d\n", (unsigned int)*buf, n);
-	buf[0] = '1';
-	buf[1] = '1';
-	fprintf(stdout, "writing %d\n", (unsigned int)*buf);
-	write(fd, buf, 2);
-	sleep(2);
-	n = read (fd, buf, sizeof(buf));
-	fprintf(stdout, "\"%d\" %d\n", (unsigned int)*buf, n);
+	fprintf(stdout, "Reading: %X %d %d\n", buf[0], (unsigned int) buf[1], n);
+	sleep(4);
+	buf[0] = (unsigned char ) 0x00;
+	buf[1] = (unsigned char ) 0x10;
+	write(fd, buf, 2); 
+	fprintf(stdout, "Writing: %X %d \n", buf[0], (unsigned int) buf[1]);
+	sleep(4);
+	n = read (fd, buf, sizeof(buf)); 
+	fprintf(stdout, "Reading: %X %d %d\n", buf[0], (unsigned int) buf[1], n);
 	
 	return 0;
 }
