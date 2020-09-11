@@ -62,6 +62,8 @@ int main(int argc, char ** argv)
 	unsigned char buf [2];
 	char * portname = "/dev/ttyUSB1";
 
+	buf[0] = (unsigned char ) 0x00;
+	buf[1] = (unsigned char ) 0x00;
 
 	if (argc == 2)
 		portname = argv[1];
@@ -79,12 +81,12 @@ int main(int argc, char ** argv)
 
 	n = read (fd, buf, sizeof(buf)); 
 	fprintf(stdout, "Reading: %X %d %d\n", buf[0], (unsigned int) buf[1], n);
-	sleep(4);
+	sleep(1);
 	buf[0] = (unsigned char ) 0x00;
 	buf[1] = (unsigned char ) 0x10;
 	write(fd, buf, 2); 
 	fprintf(stdout, "Writing: %X %d \n", buf[0], (unsigned int) buf[1]);
-	sleep(4);
+	sleep(1);
 	n = read (fd, buf, sizeof(buf)); 
 	fprintf(stdout, "Reading: %X %d %d\n", buf[0], (unsigned int) buf[1], n);
 	
