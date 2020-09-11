@@ -23,8 +23,8 @@ int set_interface_attribs (int fd, int speed, int parity)
         tty.c_lflag = 0;                // no signaling chars, no echo,
                                         // no canonical processing
         tty.c_oflag = 0;                // no remapping, no delays
-        tty.c_cc[VMIN]  = 0;            // read doesn't block
-        tty.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
+        tty.c_cc[VMIN]  = 1;            // read doesn't block
+        tty.c_cc[VTIME] = 0;            // 0.5 seconds read timeout
 
         tty.c_iflag &= ~(IXON | IXOFF | IXANY); // shut off xon/xoff ctrl
 
@@ -41,24 +41,9 @@ int set_interface_attribs (int fd, int speed, int parity)
         return 0;
 }
 
-int set_blocking (int fd, int should_block)
-{
-        struct termios tty;
-        memset (&tty, 0, sizeof tty);
-        if (tcgetattr (fd, &tty) != 0)
-                return -1;
-
-        tty.c_cc[VMIN]  = should_block ? 1 : 0;
-        tty.c_cc[VTIME] = 5;            // 0.5 seconds read timeout
-
-        if (tcsetattr (fd, TCSANOW, &tty) != 0)
-		return -1;
-}
-
-
 int main(int argc, char ** argv)
 {
-	int n;
+	int n, i;
 	unsigned char buf [2];
 	char * portname = "/dev/ttyUSB1";
 
@@ -69,27 +54,31 @@ int main(int argc, char ** argv)
 		portname = argv[1];
 
 
-   	int fd = open (portname, O_RDWR | O_NOCTTY | O_SYNC);
+   	//int fd = open (portname, O_RDWR | O_NOCTTY | O_SYNC);
+	int fd = open (portname, O_RDWR );
    	if (fd < 0)
 	{
 		fprintf (stderr, "error %d opening %s: %s \n", errno, portname, strerror (errno));
 		return 1;
 	}
 
-	set_interface_attribs (fd, B115200, 0); 
-	set_blocking (fd, 0); 
+	//set_interface_attribs (fd, 115200, 0); 
 
-	n = read (fd, buf, sizeof(buf)); 
-	fprintf(stdout, "Reading: %X %d %d\n", buf[0], (unsigned int) buf[1], n);
+	//n = read (fd, buf, sizeof(buf)); 
+	//fprintf(stdout, "Reading: %X %X %d\n", buf[0], buf[1], n);
 	sleep(1);
 	buf[0] = (unsigned char ) 0x00;
 	buf[1] = (unsigned char ) 0x10;
-	write(fd, buf, 2); 
-	fprintf(stdout, "Writing: %X %d \n", buf[0], (unsigned int) buf[1]);
-	sleep(1);
-	n = read (fd, buf, sizeof(buf)); 
-	fprintf(stdout, "Reading: %X %d %d\n", buf[0], (unsigned int) buf[1], n);
-	
+	write(fd, buf, (size_t) 2);
+	fprintf(stdout, "Writing: %X %X \n", buf[0], buf[1]);
+	//sleep(1);
+	for (i= 0; i<100000; ++i)
+	{
+	  n = read (fd, buf, (size_t)  2); 
+	  if (buf[0] != 0x80  || buf[1] != 0x80)
+		  fprintf(stdout, "Reading: %X %X \n", buf[0], buf[1]);
+	}
+
 	return 0;
 }
 
