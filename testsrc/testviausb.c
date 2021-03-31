@@ -67,13 +67,9 @@ int main(int argc, char ** argv)
 	sleep(2);
 
 	buf[0] = (unsigned char ) 0x00;
-	n = write(fd, buf, (size_t) 1);
-	fprintf(stdout, "Write: %X %d\n", buf[0], n);
-
-	buf[0] = (unsigned char ) 0x10;
-	n = write(fd, buf, (size_t) 1);
-	fprintf(stdout, "Write: %X %d\n", buf[0], n);
-
+	buf[1] = (unsigned char ) 0x10;
+	n = write(fd, buf, (size_t) 2);
+	fprintf(stdout, "Write: %X %X %d\n", buf[0], buf[1], n);
 
 	do 
 	{
