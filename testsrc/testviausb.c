@@ -68,31 +68,14 @@ int main(int argc, char ** argv)
 
 	buf[0] = (unsigned char ) 0x00;
 	buf[1] = (unsigned char ) 0x10;
-	n = write(fd, buf, (size_t) 2);
+        //n = write(fd, buf, (size_t) 2);
 	fprintf(stdout, "Write: %X %X %d\n", buf[0], buf[1], n);
 
 	do 
 	{
 		n = read (fd, buf, sizeof(unsigned char));
-
-		if (buf[0] != 0x80 )
-			fprintf(stdout, "Reading: %X %d\n", buf[0], n);
+		fprintf(stdout, "Reading: %X %d\n", buf[0], n);
 	} while (n != 0);
-
-	n = read (fd, buf, sizeof(buf)); 
-	fprintf(stdout, "Reading: %X %X nbyte: %d\n", buf[0], buf[1], n);
-	sleep(1);
-	buf[0] = (unsigned char ) 0x00;
-	buf[1] = (unsigned char ) 0x10;
-	write(fd, buf, (size_t) 2);
-	fprintf(stdout, "Writing: %X %X \n", buf[0], buf[1]);
-	sleep(1);
-	for (i= 0; i<100000; ++i)
-	{
-	  n = read (fd, buf, (size_t)  2); 
-          if (buf[0] != 0x80  || buf[1] != 0x80)
-	    fprintf(stdout, "Reading: %X %X \n", buf[0], buf[1]);
-	}
 
 	return 0;
 }
