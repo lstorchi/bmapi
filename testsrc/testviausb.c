@@ -95,45 +95,72 @@ int main(int argc, char ** argv)
   }
   
   set_interface_attribs (fd, 115200, 0); 
-  fprintf(stdout,"Writing 1\n");
 
+  fprintf(stdout,"Writing 1\n");
   num = 0x15; // 00010101
   buf[0] = (unsigned char ) (cmdHANDSH | num);
-
   fprintf(stdout,"  ");
   to_binary(buf[0]);
-
   n = write(fd, buf, (size_t) 1);
+  if (n != 1)
+    return -1;
+
+  sleep(1);
 
   fprintf(stdout,"Reading 2\n");
-  
   n = read (fd, buf, sizeof(unsigned char));
+  if (n != 1)
+    return -1;
   fprintf(stdout,"  ");
   to_binary(buf[0]);
-
   buf[1] = buf[0] & (~ cmdMASK);
-
   if (buf[1] == num)
   {
     fprintf(stdout,"  OK ");
     to_binary(buf[1]);
   }
 
+  sleep(1);
+
   fprintf(stdout,"Writing 3\n");
   buf[0] = (unsigned char ) (buf[0] & num);
   fprintf(stdout,"  ");
   to_binary(buf[0]);
   n = write(fd, buf, (size_t) 1);
+  if (n != 1)
+    return -1;
+
+  sleep(1);
 
   fprintf(stdout,"Reading 4\n");
   n = read (fd, buf, sizeof(unsigned char));
-  
+  if (n != 1)
+    return -1;
   if (buf[0] == num)
   {
     fprintf(stdout,"  OK ");
     to_binary(buf[0]);
   }
 
+  sleep(1);
+
+  fprintf(stdout,"Writing 5\n");
+  buf[0] = (unsigned char ) (0x01);
+  buf[1] = (unsigned char ) 10;
+  fprintf(stdout,"  ");
+  to_binary(buf[0]);
+  fprintf(stdout,"  ");
+  to_binary(buf[1]);
+  n = write(fd, buf, (size_t) 1);
+
+  sleep(1);
+
+  fprintf(stdout,"Reading 6\n");
+  n = read (fd, buf, sizeof(unsigned char) * 2);
+  fprintf(stdout,"  ");
+  to_binary(buf[0]);
+  fprintf(stdout,"  ");
+  to_binary(buf[1]);
 
   return 0;
 }
