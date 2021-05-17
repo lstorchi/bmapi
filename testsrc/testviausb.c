@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <math.h>
 #include <errno.h>
 #include <fcntl.h> 
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdlib.h>
 
 #define cmdNEWVAL   (unsigned char) 0   // 000 00000
 #define cmdDVALIDH  (unsigned char) 32  // 001 00000
@@ -17,26 +19,46 @@
 
 #define DIM 8
 
-void to_binary(unsigned char n)
+int * to_binary(unsigned char val)
 {
-  int i, j, binarynum[DIM];
+  int i, n; 
+  int * binarynum;
 
-  for (i=0;i<DIM;++i)
-    binarynum[i] = 0;
-
-  i = 0;
-  while (n > 0) 
-  {
-    binarynum[i] = n % 2;
-    n = n / 2;
-    i++;
-  }
-                                                           
-  for (j = DIM - 1; j >= 0; j--)
-    fprintf(stdout, "%1d", (int) binarynum[j]);
+  n = (int) sizeof(unsigned char);
   
-  fprintf(stdout, "\n");
+  binarynum = (int *) malloc(sizeof(unsigned char));
+  if (binarynum != NULL)
+  {
+    for (i=0; i<n; ++i)
+      binarynum[i] = 0;
+    
+    i = 0;
+    while (val > 0) 
+    {
+      binarynum[i] = val % 2;
+      val = val / 2;
+      i++;
+    }
+  }
 
+  return binarynum;
+                                                           
+}
+
+unsigned char from_binary(int val[8])
+{
+  int multiplier = 1, basis, expo, i;
+  unsigned char bin;
+
+  expo = 0;
+  basis = 2;
+  for (i = 0; i < 8; ++i )
+  {
+    bin += (pow(basis, expo)* val[i]);
+    expo += 1;
+  }
+
+  return bin;
 }
 
 int set_interface_attribs (int fd, int speed, int blocking)
@@ -75,7 +97,7 @@ int set_interface_attribs (int fd, int speed, int blocking)
 
 int main(int argc, char ** argv)
 {
-  int n, i;
+  int n, i, j, * binary;
   unsigned char buf [2], num;
   char * portname = "/dev/ttyUSB1";
   
@@ -108,7 +130,13 @@ int main(int argc, char ** argv)
   num = 0x15; // 00010101
   buf[0] = (unsigned char ) (cmdHANDSH | num);
   fprintf(stdout,"  ");
-  to_binary(buf[0]);
+  binary = to_binary(buf[0]);
+  for (j = DIM - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+  fprintf(stdout, " --> ");
+  fprintf(stdout, "%X \n", from_binary(binary));
+
+  free(binary);
   n = write(fd, buf, (size_t) 1);
   if (n != 1)
     return -1;
@@ -118,12 +146,21 @@ int main(int argc, char ** argv)
   if (n != 1)
     return -1;
   fprintf(stdout,"  ");
-  to_binary(buf[0]);
+  binary = to_binary(buf[0]);
+  for (j = DIM - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+  fprintf(stdout, "\n");
+  free(binary);
+ 
 
   fprintf(stdout,"Writing 3\n");
   buf[1] = (unsigned char ) (buf[0] & num);
   fprintf(stdout,"  ");
-  to_binary(buf[0]);
+  binary = to_binary(buf[0]);
+  for (j = DIM - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+  fprintf(stdout, "\n");
+  free(binary);
   n = write(fd, &(buf[1]), (size_t) 1);
   if (n != 1)
     return -1;
@@ -135,24 +172,48 @@ int main(int argc, char ** argv)
   if (buf[0] == buf[1])
   {
     fprintf(stdout,"  OK ");
-    to_binary(buf[0]);
+    binary = to_binary(buf[0]);
+    for (j = DIM - 1; j >= 0; j--)
+      fprintf(stdout, "%1d", (int) binary[j]);
+    fprintf(stdout, "\n");
+    free(binary);
   }
 
   fprintf(stdout,"Writing 5\n");
   buf[0] = (unsigned char ) (cmdNEWVAL | (0x00));
   buf[1] = (unsigned char ) 10;
   fprintf(stdout,"  ");
-  to_binary(buf[0]);
+  binary = to_binary(buf[0]);
+  for (j = DIM - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+  fprintf(stdout, "\n");
+  free(binary);
+ 
   fprintf(stdout,"  ");
-  to_binary(buf[1]);
+  binary = to_binary(buf[1]);
+  for (j = DIM - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+  fprintf(stdout, "\n");
+  free(binary);
+ 
   n = write(fd, buf, (size_t) 2);
 
   fprintf(stdout,"Reading 6\n");
   n = read (fd, buf, sizeof(unsigned char) * 2);
   fprintf(stdout,"  ");
-  to_binary(buf[0]);
+  binary = to_binary(buf[0]);
+  for (j = DIM - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+  fprintf(stdout, "\n");
+  free(binary);
+ 
   fprintf(stdout,"  ");
-  to_binary(buf[1]);
+  binary = to_binary(buf[1]);
+  for (j = DIM - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+  fprintf(stdout, "\n");
+  free(binary);
+ 
 
   return 0;
 }
