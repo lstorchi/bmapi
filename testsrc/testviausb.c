@@ -8,92 +8,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#define cmdNEWVAL   (unsigned char) 0   // 000 00000
-#define cmdDVALIDH  (unsigned char) 32  // 001 00000
-#define cmdDVALIDL  (unsigned char) 64  // 010 00000
-#define cmdDRECVH   (unsigned char) 96  // 011 00000
-#define cmdDRECVL   (unsigned char) 128 // 100 00000
-#define cmdHANDSH   (unsigned char) 160 // 101 00000
-#define cmdKEEP     (unsigned char) 192 // 110 00000
-#define cmdMASK     (unsigned char) 224 // 111 00000
-
-#define DIM 8
-
-int * to_binary(unsigned char val)
-{
-  int i, n; 
-  int * binarynum;
-
-  n = (int) sizeof(unsigned char);
-  
-  binarynum = (int *) malloc(sizeof(unsigned char));
-  if (binarynum != NULL)
-  {
-    for (i=0; i<n; ++i)
-      binarynum[i] = 0;
-    
-    i = 0;
-    while (val > 0) 
-    {
-      binarynum[i] = val % 2;
-      val = val / 2;
-      i++;
-    }
-  }
-
-  return binarynum;
-                                                           
-}
-
-unsigned char from_binary(int val[8])
-{
-  int multiplier = 1, basis, expo, i;
-  unsigned char bin;
-
-  expo = 0;
-  basis = 2;
-  for (i = 0; i < 8; ++i )
-  {
-    bin += (pow(basis, expo)* val[i]);
-    expo += 1;
-  }
-
-  return bin;
-}
-
-int set_interface_attribs (int fd, int speed, int blocking)
-{
-  struct termios tty;
-  if (tcgetattr (fd, &tty) != 0)
-          return -1;
-  
-  cfsetospeed (&tty, speed);
-  cfsetispeed (&tty, speed);
-  
-  tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;     // 8-bit chars
-  						// disable IGNBRK for mismatched speed tests; otherwise receive break
-  						// as \000 chars
-  tty.c_iflag &= ~IGNBRK;         // disable break processing
-  tty.c_lflag = 0;                // no signaling chars, no echo,
-                                  // no canonical processing
-  tty.c_oflag = 0;                // no remapping, no delays
-  tty.c_cc[VMIN]  = blocking;            // read doesn't block
-  tty.c_cc[VTIME] = 0;            // 0.5 seconds read timeout
-  
-  tty.c_iflag &= ~(IXON | IXOFF | IXANY); // shut off xon/xoff ctrl
-  
-  tty.c_cflag |= (CLOCAL | CREAD);// ignore modem controls,
-                                  // enable reading
-  tty.c_cflag &= ~(PARENB | PARODD);      // shut off parity
-  tty.c_cflag |= 0;
-  tty.c_cflag &= ~CSTOPB;
-  tty.c_cflag &= ~CRTSCTS;
-  
-  if (tcsetattr (fd, TCSANOW, &tty) != 0)
-          return -1;
-  
-  return 0;
-}
+#include "../ptsrc/ptinternal.h"
 
 int main(int argc, char ** argv)
 {
@@ -131,7 +46,7 @@ int main(int argc, char ** argv)
   buf[0] = (unsigned char ) (cmdHANDSH | num);
   fprintf(stdout,"  ");
   binary = to_binary(buf[0]);
-  for (j = DIM - 1; j >= 0; j--)
+  for (j = PTDIMBITS - 1; j >= 0; j--)
     fprintf(stdout, "%1d", (int) binary[j]);
   fprintf(stdout, " --> ");
   fprintf(stdout, "%X \n", from_binary(binary));
@@ -147,7 +62,7 @@ int main(int argc, char ** argv)
     return -1;
   fprintf(stdout,"  ");
   binary = to_binary(buf[0]);
-  for (j = DIM - 1; j >= 0; j--)
+  for (j = PTDIMBITS - 1; j >= 0; j--)
     fprintf(stdout, "%1d", (int) binary[j]);
   fprintf(stdout, "\n");
   free(binary);
@@ -157,7 +72,7 @@ int main(int argc, char ** argv)
   buf[1] = (unsigned char ) (buf[0] & num);
   fprintf(stdout,"  ");
   binary = to_binary(buf[0]);
-  for (j = DIM - 1; j >= 0; j--)
+  for (j = PTDIMBITS - 1; j >= 0; j--)
     fprintf(stdout, "%1d", (int) binary[j]);
   fprintf(stdout, "\n");
   free(binary);
@@ -173,7 +88,7 @@ int main(int argc, char ** argv)
   {
     fprintf(stdout,"  OK ");
     binary = to_binary(buf[0]);
-    for (j = DIM - 1; j >= 0; j--)
+    for (j = PTDIMBITS - 1; j >= 0; j--)
       fprintf(stdout, "%1d", (int) binary[j]);
     fprintf(stdout, "\n");
     free(binary);
@@ -184,14 +99,14 @@ int main(int argc, char ** argv)
   buf[1] = (unsigned char ) 10;
   fprintf(stdout,"  ");
   binary = to_binary(buf[0]);
-  for (j = DIM - 1; j >= 0; j--)
+  for (j = PTDIMBITS - 1; j >= 0; j--)
     fprintf(stdout, "%1d", (int) binary[j]);
   fprintf(stdout, "\n");
   free(binary);
  
   fprintf(stdout,"  ");
   binary = to_binary(buf[1]);
-  for (j = DIM - 1; j >= 0; j--)
+  for (j = PTDIMBITS - 1; j >= 0; j--)
     fprintf(stdout, "%1d", (int) binary[j]);
   fprintf(stdout, "\n");
   free(binary);
@@ -202,14 +117,14 @@ int main(int argc, char ** argv)
   n = read (fd, buf, sizeof(unsigned char) * 2);
   fprintf(stdout,"  ");
   binary = to_binary(buf[0]);
-  for (j = DIM - 1; j >= 0; j--)
+  for (j = PTDIMBITS - 1; j >= 0; j--)
     fprintf(stdout, "%1d", (int) binary[j]);
   fprintf(stdout, "\n");
   free(binary);
  
   fprintf(stdout,"  ");
   binary = to_binary(buf[1]);
-  for (j = DIM - 1; j >= 0; j--)
+  for (j = PTDIMBITS - 1; j >= 0; j--)
     fprintf(stdout, "%1d", (int) binary[j]);
   fprintf(stdout, "\n");
   free(binary);
