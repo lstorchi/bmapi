@@ -12,11 +12,22 @@
 
 #define PTDIMBITS 8
 
+enum 
+{        
+    stateWAIT = 0x00,
+    stateHSSENT,
+    stateMASKRECV,
+    stateACK,
+    stateCONNECT = 0xFF
+};
+
 int * to_binary(unsigned char);
 
 unsigned char from_binary(int val[PTDIMBITS]);
 
 int set_interface_attribs (int, int, int);
+
+void dump_to_stdout(unsigned char);
 
 
 #endif

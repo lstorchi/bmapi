@@ -10,6 +10,21 @@
 
 #include "ptinternal.h"
 
+void dump_to_stdout (unsigned char buf)
+{
+  int * binary, j;
+
+  binary = to_binary(buf);
+
+  for (j = PTDIMBITS - 1; j >= 0; j--)
+    fprintf(stdout, "%1d", (int) binary[j]);
+
+  fprintf(stdout, " --> ");
+  fprintf(stdout, "%X \n", from_binary(binary));
+
+  free(binary);
+}
+
 int * to_binary(unsigned char val)
 {
   int i, n; 
@@ -17,7 +32,7 @@ int * to_binary(unsigned char val)
 
   n = (int) sizeof(unsigned char);
   
-  binarynum = (int *) malloc(sizeof(unsigned char));
+  binarynum = (int *) malloc( PTDIMBITS * sizeof(int));
   if (binarynum != NULL)
   {
     for (i=0; i<n; ++i)
